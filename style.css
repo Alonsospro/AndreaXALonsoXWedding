@@ -1,0 +1,493 @@
+:root {
+  --bg-ivory: #FDFBF7;
+  --envelope-color: #FAF6EE;
+  --primary-blue: #2C425E;
+  --accent-gold: #D4AF37;
+  --text-dark: #333333;
+  --font-cursive: 'Great Vibes', cursive;
+  --font-sans: 'Montserrat', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-ivory);
+  font-family: var(--font-sans);
+  color: var(--text-dark);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* -------------------------------------------------------------
+   1. PANTALLA DE INGRESO DE CÓDIGO (FONDO f1.jpeg DIFUMINADO)
+------------------------------------------------------------- */
+.login-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+  transition: opacity 1s ease;
+}
+
+.login-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('img/f1.jpeg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px) brightness(0.65);
+  transform: scale(1.05); /* Evita bordes blancos por el blur */
+  z-index: 1;
+}
+
+.code-card {
+  position: relative;
+  z-index: 2;
+  width: 90%;
+  max-width: 380px;
+  text-align: center;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+  text-align: center;
+  text-transform: uppercase;
+  outline: none;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.input-group input::placeholder {
+  color: #a0a0a0; /* Tono muy bajo */
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+.input-group button {
+  background: #D4AF37;
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.input-group button:hover {
+  background: #b8962e;
+}
+
+.error-msg {
+  color: #ff4d4d;
+  font-size: 0.85rem;
+  margin-top: 15px;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+/* Spinner de Dos Anillos Concéntricos */
+.double-ring-spinner {
+  display: inline-block;
+  position: relative;
+  width: 50px;
+  height: 50px;
+  margin-top: 15px;
+}
+
+.double-ring-spinner div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  margin: 5px;
+  border: 4px solid #D4AF37;
+  border-radius: 50%;
+  animation: ring-spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #D4AF37 transparent transparent transparent;
+}
+
+.double-ring-spinner div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+
+.double-ring-spinner div:nth-child(2) {
+  width: 28px;
+  height: 28px;
+  margin: 11px;
+  border-color: #ffffff transparent transparent transparent;
+  animation-direction: reverse;
+}
+
+@keyframes ring-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* -------------------------------------------------------------
+   2. PANTALLA DEL SOBRE CERRADO (RECTO Y MINIMALISTA)
+------------------------------------------------------------- */
+.envelope-wrapper {
+  perspective: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: var(--bg-ivory);
+  z-index: 40;
+  transition: opacity 1s ease;
+}
+
+.envelope {
+  position: relative;
+  width: 340px;
+  height: 230px;
+  background-color: var(--envelope-color);
+  background-image: url('img/textura.png');
+  background-size: cover;
+  background-blend-mode: multiply;
+  /* Terminaciones completamente rectas y bordes finos minimalistas */
+  border-radius: 0px; 
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(197, 160, 89, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: center;
+  padding-bottom: 25px;
+  transition: transform 0.8s ease, opacity 0.8s ease;
+  transform-style: preserve-3d;
+}
+
+/* Solapa Realista Recta con Sombras */
+.top-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 170px solid transparent;
+  border-right: 170px solid transparent;
+  border-top: 125px solid var(--envelope-color);
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.18));
+  transform-origin: top;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 3;
+}
+
+.top-flap::after {
+  content: '';
+  position: absolute;
+  top: -125px;
+  left: -170px;
+  width: 340px;
+  height: 125px;
+  background-image: url('img/textura.png');
+  background-size: cover;
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+  z-index: -1;
+}
+
+/* Sello de Cera (sello.png) */
+.wax-seal {
+  position: absolute;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  z-index: 4;
+  transition: transform 0.3s ease;
+}
+
+.wax-seal:hover {
+  transform: translateX(-50%) scale(1.06);
+}
+
+.wax-seal img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));
+}
+
+/* Nombre del Invitado Debajo del Sello */
+.envelope-guest-info {
+  z-index: 2;
+  margin-top: 50px;
+}
+
+.envelope-guest-info h3 {
+  font-family: var(--font-cursive);
+  font-size: 2.1rem;
+  color: var(--primary-blue);
+  margin: 0;
+  line-height: 1;
+}
+
+.envelope-guest-info .family-tag {
+  display: block;
+  font-size: 0.8rem;
+  color: #777777;
+  font-weight: 400;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+.envelope.open .top-flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.envelope.open {
+  transform: translateY(80px) scale(0.95);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* -------------------------------------------------------------
+   3. INVITACIÓN PRINCIPAL (HERO CON f2.jpeg Y DIFUMINADO)
+------------------------------------------------------------- */
+.wedding-content {
+  width: 100%;
+}
+
+.hero-section {
+  position: relative;
+  padding: 0 0 30px 0 !important;
+}
+
+.hero-image-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 20px auto;
+  overflow: hidden;
+}
+
+.hero-f2-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Difuminado suave arriba y abajo sobre la foto f2.jpeg */
+.fade-overlay {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 25%;
+  pointer-events: none;
+}
+
+.top-fade {
+  top: 0;
+  background: linear-gradient(to bottom, var(--bg-ivory) 0%, rgba(253, 251, 247, 0) 100%);
+}
+
+.bottom-fade {
+  bottom: 0;
+  background: linear-gradient(to top, var(--bg-ivory) 0%, rgba(253, 251, 247, 0) 100%);
+}
+
+.couple-names {
+  font-family: var(--font-cursive);
+  font-size: 3.2rem;
+  color: var(--primary-blue);
+  margin: 10px 0 5px 0;
+}
+
+.tagline {
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #666;
+  padding: 0 15px;
+}
+
+.date-badge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 15px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--primary-blue);
+}
+
+.date-badge .highlight {
+  font-size: 2.2rem;
+  color: var(--accent-gold);
+}
+
+/* Secciones Generales */
+section {
+  padding: 40px 20px;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Countdown */
+.countdown-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.time-box {
+  background: #ffffff;
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  padding: 12px;
+  border-radius: 10px;
+  min-width: 60px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+}
+
+.time-box span {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-blue);
+}
+
+.time-box small {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: #777;
+}
+
+/* Ubicaciones & RSVP */
+.location-card, .rsvp-box {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  border: 1px solid #f0e6d2;
+  text-align: left;
+}
+
+.location-card {
+  text-align: center;
+}
+
+.btn-map, .btn-confirm {
+  display: inline-block;
+  background: var(--primary-blue);
+  color: white;
+  padding: 12px 25px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 15px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--primary-blue);
+}
+
+.radio-group {
+  display: flex;
+  gap: 15px;
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.confirmed-box {
+  text-align: center;
+  padding: 20px;
+}
+
+.check-icon {
+  font-size: 3rem;
+  color: #28a745;
+}
+
+/* Audio Control */
+.audio-control {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 8px 15px;
+  border-radius: 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 1000;
+  border: 1px solid var(--accent-gold);
+}
+
+.audio-control button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.audio-control input[type="range"] {
+  width: 70px;
+  accent-color: var(--accent-gold);
+}

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boda Alonso & Andrea</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Reproductor Flotante de Audio -->
+  <div id="audio-control" class="audio-control hidden">
+    <button id="mute-btn" onclick="toggleMute()">🔊</button>
+    <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.7" oninput="changeVolume(this.value)">
+    <audio id="bg-music" loop>
+      <source src="audio/musica.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <!-- PANTALLA 1: Ingreso de Código con Fondo f1.jpeg -->
+  <div id="login-screen" class="login-screen">
+    <div class="login-bg"></div>
+    <div class="code-card">
+      <div class="input-group">
+        <input type="text" id="guest-code" placeholder="INGRESA TU CÓDIGO ÚNICO" maxlength="15">
+        <button id="btn-login" onclick="validarCodigo()">INGRESAR</button>
+      </div>
+
+      <!-- Spinner de Dos Anillos -->
+      <div id="loading-spinner" class="double-ring-spinner hidden">
+        <div></div><div></div>
+      </div>
+
+      <p id="error-message" class="error-msg"></p>
+    </div>
+  </div>
+
+  <!-- PANTALLA 2: Sobre Creado Minimalista -->
+  <div id="envelope-wrapper" class="envelope-wrapper hidden">
+    
+    <div id="envelope" class="envelope">
+      <!-- Solapa Realista -->
+      <div class="top-flap"></div>
+      
+      <!-- Sello de Cera (sello.png) -->
+      <div id="wax-seal" class="wax-seal" onclick="abrirInvitacion()">
+        <img src="img/sello.png" alt="Sello Alonso & Andrea">
+      </div>
+
+      <!-- Nombre del Invitado Debajo del Sello -->
+      <div class="envelope-guest-info">
+        <h3 id="guest-name-display">Cargando...</h3>
+        <span class="family-tag">y Familia</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PANTALLA 3: Invitación Principal -->
+  <main id="wedding-content" class="wedding-content hidden">
+
+    <!-- Hero con Imagen f2.jpeg y Difuminado Superior e Inferior -->
+    <section class="hero-section reveal">
+      <div class="hero-image-container">
+        <img src="img/f2.jpeg" alt="Alonso & Andrea" class="hero-f2-img">
+        <div class="fade-overlay top-fade"></div>
+        <div class="fade-overlay bottom-fade"></div>
+      </div>
+      
+      <h1 class="couple-names">Alonso & Andrea</h1>
+      <p class="tagline">"Con la bendición de Dios y el amor de nuestras familias, nos unimos en matrimonio."</p>
+      <div class="date-badge">
+        <span>SÁBADO</span>
+        <strong class="highlight">03</strong>
+        <span>OCTUBRE 2026</span>
+      </div>
+    </section>
+
+    <!-- Cuenta Regresiva -->
+    <section class="countdown-section reveal">
+      <h3>Casi llega el gran día</h3>
+      <div id="countdown" class="countdown-container">
+        <div class="time-box"><span id="days">00</span><small>Días</small></div>
+        <div class="time-box"><span id="hours">00</span><small>Horas</small></div>
+        <div class="time-box"><span id="minutes">00</span><small>Minutos</small></div>
+        <div class="time-box"><span id="seconds">00</span><small>Segundos</small></div>
+      </div>
+    </section>
+
+    <!-- Ubicaciones -->
+    <section class="locations-section reveal">
+      <h2>¿Dónde y Cuándo?</h2>
+      
+      <div class="location-card">
+        <div class="icon">⛪</div>
+        <h3>Ceremonia Religiosa</h3>
+        <p class="time">🕒 16:30 HRS</p>
+        <p class="place-name">Nombre de la Iglesia / Parroquia</p>
+        <p class="address">Dirección de la iglesia, Santa Cruz</p>
+        <a href="https://maps.google.com" target="_blank" class="btn-map">Ver en Google Maps</a>
+      </div>
+
+      <div class="location-card">
+        <div class="icon">🥂</div>
+        <h3>Recepción & Fiesta</h3>
+        <p class="time">🕒 19:00 HRS</p>
+        <p class="place-name">Nombre del Salón / Quinta</p>
+        <p class="address">Dirección de la fiesta, Santa Cruz</p>
+        <a href="https://maps.google.com" target="_blank" class="btn-map">Ver en Google Maps</a>
+      </div>
+    </section>
+
+    <!-- Código de Vestimenta -->
+    <section class="dresscode-section reveal">
+      <div class="icon">👗🤵</div>
+      <h2>Código de Vestimenta</h2>
+      <p class="dress-type">FORMAL ELEGANTE</p>
+      <small>Nos reservamos el color blanco para la novia.</small>
+    </section>
+
+    <!-- Confirmación RSVP -->
+    <section id="rsvp-section" class="rsvp-section reveal">
+      <h2>Confirmación de Asistencia</h2>
+      <p class="rsvp-sub">Por favor confirma tu asistencia antes del 1 de Septiembre de 2026.</p>
+
+      <div id="rsvp-container" class="rsvp-box">
+        
+        <div id="rsvp-form">
+          <h3 id="rsvp-guest-title">Hola</h3>
+
+          <div class="form-group">
+            <label>¿Nos acompañarás en la Iglesia?</label>
+            <div class="radio-group">
+              <label><input type="radio" name="church" value="Asistirá" checked> Sí, asistiré</label>
+              <label><input type="radio" name="church" value="No Asistirá"> No podré ir</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>¿Nos acompañarás en la Fiesta?</label>
+            <div class="radio-group">
+              <label><input type="radio" name="party" value="Asistirá" checked onchange="togglePases(true)"> Sí, asistiré</label>
+              <label><input type="radio" name="party" value="No Asistirá" onchange="togglePases(false)"> No podré ir</label>
+            </div>
+          </div>
+
+          <div id="pases-selector-group" class="form-group">
+            <label for="pases-select">¿Cuántos pases de la fiesta utilizarán?</label>
+            <select id="pases-select"></select>
+            <small id="pases-max-info">Pases asignados: 0</small>
+          </div>
+
+          <button id="btn-submit-rsvp" onclick="enviarRSVP()" class="btn-confirm">CONFIRMAR ASISTENCIA</button>
+          <p id="rsvp-status-msg" class="status-msg"></p>
+        </div>
+
+        <div id="rsvp-already-confirmed" class="confirmed-box hidden">
+          <div class="check-icon">✓</div>
+          <h3>¡Tu asistencia ya fue registrada!</h3>
+          <p id="summary-text"></p>
+          <small>Gracias por formar parte de nuestro día especial.</small>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Mesa de Regalos -->
+    <section class="gifts-section reveal">
+      <div class="icon">🎁</div>
+      <h2>Mesa de Regalos</h2>
+      <p>El mejor regalo es tu presencia, pero si deseas hacernos un obsequio, ponemos a tu disposición nuestra opción de lluvia de sobres o transferencia.</p>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
