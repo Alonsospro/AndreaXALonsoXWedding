@@ -1,10 +1,12 @@
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzbpsvZXFY_Wv8Q4IYl0-dDZIC53RLXRgxttKf-8qWblMwIeiqxWDYGAxhIOS2y8hxtAg/exec"; 
 
 let invitadoActual = null;
-const WEDDING_DATE = new Date('October 3, 2026 16:30:00').getTime();
+const WEDDING_DATE = new Date('October 3, 2026 17:15:00').getTime();
 
-// Validar si viene un ID en la URL (?id=INV-101)
+// Iniciar partículas (corazones y anillos)
 window.addEventListener('DOMContentLoaded', () => {
+  crearParticulas();
+
   const urlParams = new URLSearchParams(window.location.search);
   const codeParam = urlParams.get('id');
 
@@ -13,7 +15,18 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// Forzar pantalla completa al primer clic/interacción
+function solicitarPantallaCompleta() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(err => {
+      console.log("Pantalla completa omitida o no soportada:", err.message);
+    });
+  }
+}
+
 function validarCodigo() {
+  solicitarPantallaCompleta();
+
   const inputCode = document.getElementById('guest-code').value.trim();
   const errorElement = document.getElementById('error-message');
   const spinner = document.getElementById('loading-spinner');
@@ -68,7 +81,6 @@ function transicionASobre(nombreInvitado) {
 
   document.getElementById('guest-name-display').textContent = nombreInvitado;
 
-  // Fade suave al salir de la pantalla de login
   loginScreen.style.opacity = '0';
   
   setTimeout(() => {
@@ -79,9 +91,10 @@ function transicionASobre(nombreInvitado) {
 }
 
 function abrirInvitacion() {
+  solicitarPantallaCompleta();
+
   const envelope = document.getElementById('envelope');
   
-  // Audio de fondo
   const music = document.getElementById('bg-music');
   if (music) {
     music.volume = 0.7;
@@ -89,7 +102,6 @@ function abrirInvitacion() {
     document.getElementById('audio-control').classList.remove('hidden');
   }
 
-  // Animación del sobre
   envelope.classList.add('open');
 
   setTimeout(() => {
@@ -101,23 +113,39 @@ function abrirInvitacion() {
       
       iniciarCuentaRegresiva();
       CargarDatosFormulario();
-      activarScrollReveal();
+      activarScrollFadeEffect();
     }, 800);
 
   }, 600);
 }
 
-// Reproductor
-function toggleMute() {
-  const music = document.getElementById('bg-music');
-  const btn = document.getElementById('mute-btn');
-  music.muted = !music.muted;
-  btn.textContent = music.muted ? "🔇" : "🔊";
+// Lluvia de corazones y anillos
+function crearParticulas() {
+  const container = document.getElementById('particles-container');
+  const items = ['💕', '💍', '❤️', '🥂'];
+
+  setInterval(() => {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    particle.innerHTML = items[Math.floor(Math.random() * items.length)];
+    particle.style.left = Math.random() * 100 + 'vw';
+    particle.style.animationDuration = Math.random() * 3 + 4 + 's';
+    
+    container.appendChild(particle);
+
+    setTimeout(() => {
+      particle.remove();
+    }, 7000);
+  }, 400);
 }
 
-function changeVolume(value) {
-  const music = document.getElementById('bg-music');
-  music.volume = value;
+// Modal Regalo QR
+function abrirModalQR() {
+  document.getElementById('qr-modal').classList.remove('hidden');
+}
+
+function cerrarModalQR() {
+  document.getElementById('qr-modal').classList.add('hidden');
 }
 
 // Cuenta Regresiva
@@ -219,17 +247,46 @@ function enviarRSVP() {
   });
 }
 
-function activarScrollReveal() {
+// Efecto Scroll Fade Suave al Deslizar
+function activarScrollFadeEffect() {
   const reveals = document.querySelectorAll('.reveal');
-  reveals.forEach(el => el.classList.add('active'));
 
-  window.addEventListener('scroll', () => {
+  const checkScroll = () => {
+    const windowHeight = window.innerHeight;
+    
     reveals.forEach(el => {
-      const windowHeight = window.innerHeight;
-      const elementTop = el.getBoundingClientRect().top;
-      if (elementTop < windowHeight - 100) {
+      const rect = el.getBoundingClientRect();
+      const elementTop = rect.top;
+      const elementBottom = rect.bottom;
+
+      // Aparece al entrar en vista
+      if (elementTop < windowHeight - 80 && elementBottom > 80) {
         el.classList.add('active');
+        el.classList.remove('fade-out');
+      } 
+      // Se desvanece suavemente si queda muy arriba fuera de pantalla
+      else if (elementBottom <= 80) {
+        el.classList.add('fade-out');
+      } 
+      else {
+        el.classList.remove('active');
       }
     });
-  });
+  };
+
+  checkScroll();
+  window.addEventListener('scroll', checkScroll);
+}
+
+// Reproductor
+function toggleMute() {
+  const music = document.getElementById('bg-music');
+  const btn = document.getElementById('mute-btn');
+  music.muted = !music.muted;
+  btn.textContent = music.muted ? "🔇" : "🔊";
+}
+
+function changeVolume(value) {
+  const music = document.getElementById('bg-music');
+  music.volume = value;
 }
