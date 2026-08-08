@@ -5,9 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Boda Alonso & Andrea</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
+  <!-- Animación Flotante en segundo plano (Corazones y Anillos) -->
+  <div id="particles-container"></div>
 
   <!-- Reproductor Flotante de Audio -->
   <div id="audio-control" class="audio-control hidden">
@@ -18,10 +21,11 @@
     </audio>
   </div>
 
-  <!-- PANTALLA 1: Ingreso de Código con Fondo f1.jpeg -->
+  <!-- PANTALLA 1: Ingreso de Código con Logo y Fondo f1.jpeg -->
   <div id="login-screen" class="login-screen">
     <div class="login-bg"></div>
     <div class="code-card">
+      <img src="img/logo.png" alt="Alonso & Andrea" class="login-logo">
       <div class="input-group">
         <input type="text" id="guest-code" placeholder="INGRESA TU CÓDIGO ÚNICO" maxlength="15">
         <button id="btn-login" onclick="validarCodigo()">INGRESAR</button>
@@ -38,29 +42,24 @@
 
   <!-- PANTALLA 2: Sobre Creado Minimalista -->
   <div id="envelope-wrapper" class="envelope-wrapper hidden">
-    
     <div id="envelope" class="envelope">
-      <!-- Solapa Realista -->
       <div class="top-flap"></div>
       
-      <!-- Sello de Cera (sello.png) -->
       <div id="wax-seal" class="wax-seal" onclick="abrirInvitacion()">
         <img src="img/sello.png" alt="Sello Alonso & Andrea">
       </div>
 
-      <!-- Nombre del Invitado Debajo del Sello -->
       <div class="envelope-guest-info">
         <h3 id="guest-name-display">Cargando...</h3>
         <span class="family-tag">y Familia</span>
       </div>
     </div>
-
   </div>
 
   <!-- PANTALLA 3: Invitación Principal -->
   <main id="wedding-content" class="wedding-content hidden">
 
-    <!-- Hero con Imagen f2.jpg y Difuminado Superior e Inferior -->
+    <!-- Hero con Imagen f2.jpg -->
     <section class="hero-section reveal">
       <div class="hero-image-container">
         <img src="img/f2.jpg" alt="Alonso & Andrea" class="hero-f2-img">
@@ -77,55 +76,118 @@
       </div>
     </section>
 
-    <!-- Cuenta Regresiva -->
-    <section class="countdown-section reveal">
-      <h3>Casi llega el gran día</h3>
-      <div id="countdown" class="countdown-container">
-        <div class="time-box"><span id="days">00</span><small>Días</small></div>
-        <div class="time-box"><span id="hours">00</span><small>Horas</small></div>
-        <div class="time-box"><span id="minutes">00</span><small>Minutos</small></div>
-        <div class="time-box"><span id="seconds">00</span><small>Segundos</small></div>
+    <!-- 1. Cuenta Regresiva y Mini Calendario -->
+    <section class="card-block reveal">
+      <div class="countdown-section">
+        <h3>Casi llega el gran día</h3>
+        <div id="countdown" class="countdown-container">
+          <div class="time-box"><span id="days">00</span><small>Días</small></div>
+          <div class="time-box"><span id="hours">00</span><small>Horas</small></div>
+          <div class="time-box"><span id="minutes">00</span><small>Minutos</small></div>
+          <div class="time-box"><span id="seconds">00</span><small>Segundos</small></div>
+        </div>
+      </div>
+
+      <!-- Mini Calendario -->
+      <div class="mini-calendar">
+        <div class="calendar-header">OCTUBRE 2026</div>
+        <div class="calendar-days-header">
+          <span>D</span><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span>
+        </div>
+        <div class="calendar-grid">
+          <span></span><span></span><span></span><span></span><span>1</span><span>2</span><span class="wedding-day">3</span>
+          <span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+          <span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span>
+          <span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span>
+          <span>25</span><span>26</span><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span>
+        </div>
       </div>
     </section>
 
-    <!-- Ubicaciones -->
-    <section class="locations-section reveal">
-      <h2>¿Dónde y Cuándo?</h2>
-      
-      <div class="location-card">
-        <div class="icon">⛪</div>
-        <h3>Ceremonia Religiosa</h3>
-        <p class="time">🕒 16:30 HRS</p>
-        <p class="place-name">Nombre de la Iglesia / Parroquia</p>
-        <p class="address">Dirección de la iglesia, Santa Cruz</p>
-        <a href="https://maps.google.com" target="_blank" class="btn-map">Ver en Google Maps</a>
-      </div>
+    <!-- DIVISOR 1: f3 -->
+    <div class="section-divider reveal"><img src="img/f3.jpg" alt="Detalle"></div>
 
-      <div class="location-card">
-        <div class="icon">🥂</div>
-        <h3>Recepción & Fiesta</h3>
-        <p class="time">🕒 19:00 HRS</p>
-        <p class="place-name">Nombre del Salón / Quinta</p>
-        <p class="address">Dirección de la fiesta, Santa Cruz</p>
-        <a href="https://maps.google.com" target="_blank" class="btn-map">Ver en Google Maps</a>
+    <!-- 2. Lugar de Ceremonia Religiosa -->
+    <section class="card-block reveal">
+      <div class="section-icon">
+        <img src="img/iglesia.gif" alt="Iglesia Icono">
       </div>
+      <h2>Ceremonia Religiosa</h2>
+      <p class="place-title">Parroquia María Auxiliadora</p>
+      <p class="time-info">🕒 17:15 HRS</p>
+      <p class="address-info">Av. Argentina esqu. Av. Don Bosco, frente al Parque Urbano</p>
+      <a href="https://maps.app.goo.gl/gjq5bqpmtu3uUTJY8" target="_blank" class="btn-primary">Ver en Google Maps</a>
     </section>
 
-    <!-- Código de Vestimenta -->
-    <section class="dresscode-section reveal">
-      <div class="icon">👗🤵</div>
-      <h2>Código de Vestimenta</h2>
-      <p class="dress-type">FORMAL ELEGANTE</p>
-      <small>Nos reservamos el color blanco para la novia.</small>
+    <!-- DIVISOR 2: f4 -->
+    <div class="section-divider reveal"><img src="img/f4.jpg" alt="Detalle"></div>
+
+    <!-- 3. Lugar de la Fiesta -->
+    <section class="card-block reveal">
+      <div class="section-icon">
+        <img src="img/fiesta.png" alt="Fiesta Icono">
+      </div>
+      <h2>Recepción & Fiesta</h2>
+      <p class="place-title">Salón Superfiesta, Villafraterna</p>
+      <p class="time-info">🕒 19:30 HRS</p>
+      <p class="address-info">Av. Roca y Coronado entre 4to y 5to anillo zona Villafraterna, frente a la plaza VilasBoas</p>
+      <a href="https://maps.app.goo.gl/NnNNpQAa1SVfWJ2n9" target="_blank" class="btn-primary">Ver en Google Maps</a>
     </section>
 
-    <!-- Confirmación RSVP -->
-    <section id="rsvp-section" class="rsvp-section reveal">
+    <!-- DIVISOR 3: f5 -->
+    <div class="section-divider reveal"><img src="img/f5.jpg" alt="Detalle"></div>
+
+    <!-- 4. Código de Vestimenta -->
+<section class="card-block reveal">
+  <div class="section-icon">
+    <img src="img/codigo.png" alt="Código de Vestimenta" class="dresscode-img">
+  </div>
+  <h2>Código de Vestimenta</h2>
+  <p class="dress-type">FORMAL ELEGANTE</p>
+  
+  <div class="reserved-colors-container">
+    <p class="reserved-title">Colores Reservados:</p>
+    
+    <!-- Disposición Vertical Paralela (2 columnas) -->
+    <div class="parallel-columns">
+      <div class="color-col">
+        <span class="col-label">Mujeres:</span>
+        <div class="color-dots">
+          <div class="color-dot" style="background-color: #FFFFFF;" title="Blanco"></div>
+          <div class="color-dot" style="background-color: #FCEAAC;" title="Beige"></div>
+        </div>
+      </div>
+
+      <div class="color-col">
+        <span class="col-label">Hombres:</span>
+        <div class="color-dots">
+          <div class="color-dot" style="background-color: #FCEAAC;" title="Beige"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIVISOR 4: f6 -->
+<div class="section-divider reveal"><img src="img/f6.jpg" alt="Detalle"></div>
+
+<!-- 5. Sección de Regalos con Icono Animado -->
+<section class="card-block reveal">
+  <div class="gift-icon-animated">🎁</div>
+  <h2>Mesa de Regalos</h2>
+  <p class="gift-text">"Tu compañía es nuestro mejor regalo. Si deseas tener un detalle adicional con nosotros para ayudarnos a construir nuestro nuevo hogar, agradeceremos una aportación económica"</p>
+  <button onclick="abrirModalQR()" class="btn-gold">Regalo</button>
+</section>
+
+    <!-- DIVISOR 5: f7 -->
+    <div class="section-divider reveal"><img src="img/f7.jpg" alt="Detalle"></div>
+
+    <!-- 6. Confirmación de Asistencia (RSVP) -->
+    <section id="rsvp-section" class="card-block reveal">
       <h2>Confirmación de Asistencia</h2>
       <p class="rsvp-sub">Por favor confirma tu asistencia antes del 1 de Septiembre de 2026.</p>
 
-      <div id="rsvp-container" class="rsvp-box">
-        
+      <div id="rsvp-container">
         <div id="rsvp-form">
           <h3 id="rsvp-guest-title">Hola</h3>
 
@@ -151,7 +213,7 @@
             <small id="pases-max-info">Pases asignados: 0</small>
           </div>
 
-          <button id="btn-submit-rsvp" onclick="enviarRSVP()" class="btn-confirm">CONFIRMAR ASISTENCIA</button>
+          <button id="btn-submit-rsvp" onclick="enviarRSVP()" class="btn-primary">CONFIRMAR ASISTENCIA</button>
           <p id="rsvp-status-msg" class="status-msg"></p>
         </div>
 
@@ -161,18 +223,23 @@
           <p id="summary-text"></p>
           <small>Gracias por formar parte de nuestro día especial.</small>
         </div>
-
       </div>
     </section>
 
-    <!-- Mesa de Regalos -->
-    <section class="gifts-section reveal">
-      <div class="icon">🎁</div>
-      <h2>Mesa de Regalos</h2>
-      <p>El mejor regalo es tu presencia, pero si deseas hacernos un obsequio, ponemos a tu disposición nuestra opción de lluvia de sobres o transferencia.</p>
-    </section>
+    <!-- DIVISOR 6: f8 -->
+    <div class="section-divider reveal"><img src="img/f8.jpg" alt="Cierre"></div>
 
   </main>
+
+  <!-- POPUP / MODAL PARA REGALO QR -->
+  <div id="qr-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-modal" onclick="cerrarModalQR()">&times;</span>
+      <h3>Aportación Económica</h3>
+      <img src="img/qr.png" alt="Código QR Regalo" class="qr-img">
+      <a href="img/qr.png" download="QR_Alonso_y_Andrea.png" class="btn-gold modal-download">Descargar QR</a>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
